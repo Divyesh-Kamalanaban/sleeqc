@@ -1,0 +1,261 @@
+Command: C:\Users\divyesh\.espressif\python_env\idf5.5_py3.11_env\Scripts\python.exe C:\Users\divyesh\esp\v5.5.1\esp-idf\tools/idf_monitor.py -p COM8 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 C:\Users\divyesh\Development\PQC\dilithium2\build\dilithium2.elf C:\Users\divyesh\Development\PQC\dilithium2\build\bootloader\bootloader.elf --force-color -m 'C:\Users\divyesh\.espressif\python_env\idf5.5_py3.11_env\Scripts\python.exe' 'C:\Users\divyesh\esp\v5.5.1\esp-idf\tools\idf.py'
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x28 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x158c
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2f34
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.1 2nd stage bootloader[0m
+[0;32mI (25) boot: compile time Oct 18 2025 09:15:23[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (28) boot: efuse block revision: v1.3[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (76) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0af00h ( 44800) map[0m
+[0;32mI (94) esp_image: segment 1: paddr=0001af28 vaddr=3fc92d00 size=02bc0h ( 11200) load[0m
+[0;32mI (97) esp_image: segment 2: paddr=0001daf0 vaddr=40374000 size=02528h (  9512) load[0m
+[0;32mI (103) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1dd7ch (122236) map[0m
+[0;32mI (130) esp_image: segment 4: paddr=0003dda4 vaddr=40376528 size=0c718h ( 50968) load[0m
+[0;32mI (147) esp_image: segment 5: paddr=0004a4c4 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (153) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (153) boot: Disabling RNG early entropy source...[0m
+[0;32mI (164) cpu_start: Multicore app[0m
+[0;32mI (173) cpu_start: Pro cpu start user code[0m
+[0;32mI (174) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (179) app_init: Application information:[0m
+[0;32mI (179) app_init: Project name:     dilithium2[0m
+[0;32mI (179) app_init: App version:      1[0m
+[0;32mI (182) app_init: Compile time:     Oct 18 2025 09:15:10[0m
+[0;32mI (187) app_init: ELF file SHA256:  f53c1cf59...[0m
+[0;32mI (192) app_init: ESP-IDF:          v5.5.1[0m
+[0;32mI (196) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (199) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (203) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (207) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (214) heap_init: At 3FC961B8 len 00053558 (333 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (224) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (229) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (235) spi_flash: detected chip: winbond[0m
+[0;32mI (238) spi_flash: flash io: dio[0m
+[0;33mW (241) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (253) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (260) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (267) main_task: Started on CPU0[0m
+[0;32mI (287) main_task: Calling app_main()[0m
+[0;32mI (307) CRYPTO_APP: Starting ML-DSA Benchmark...[0m
+
+--- ML-DSA Performance Measurement ---
+KeyGen Time:  22384 us
+Sign Time:    93441 us
+Verify Time:  23634 us
+Verification OK
+Heap free: 370460 bytes
+[0;32mI (447) main_task: Returned from app_main()[0m
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x28 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x158c
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2f34
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.1 2nd stage bootloader[0m
+[0;32mI (25) boot: compile time Oct 18 2025 09:15:23[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (28) boot: efuse block revision: v1.3[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (76) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0af00h ( 44800) map[0m
+[0;32mI (94) esp_image: segment 1: paddr=0001af28 vaddr=3fc92d00 size=02bc0h ( 11200) load[0m
+[0;32mI (97) esp_image: segment 2: paddr=0001daf0 vaddr=40374000 size=02528h (  9512) load[0m
+[0;32mI (103) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1dd7ch (122236) map[0m
+[0;32mI (130) esp_image: segment 4: paddr=0003dda4 vaddr=40376528 size=0c718h ( 50968) load[0m
+[0;32mI (147) esp_image: segment 5: paddr=0004a4c4 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (153) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (153) boot: Disabling RNG early entropy source...[0m
+[0;32mI (164) cpu_start: Multicore app[0m
+[0;32mI (173) cpu_start: Pro cpu start user code[0m
+[0;32mI (174) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (179) app_init: Application information:[0m
+[0;32mI (179) app_init: Project name:     dilithium2[0m
+[0;32mI (179) app_init: App version:      1[0m
+[0;32mI (182) app_init: Compile time:     Oct 18 2025 09:15:10[0m
+[0;32mI (187) app_init: ELF file SHA256:  f53c1cf59...[0m
+[0;32mI (192) app_init: ESP-IDF:          v5.5.1[0m
+[0;32mI (196) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (199) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (203) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (207) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (214) heap_init: At 3FC961B8 len 00053558 (333 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (224) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (229) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (235) spi_flash: detected chip: winbond[0m
+[0;32mI (238) spi_flash: flash io: dio[0m
+[0;33mW (241) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (253) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (260) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (267) main_task: Started on CPU0[0m
+[0;32mI (287) main_task: Calling app_main()[0m
+[0;32mI (307) CRYPTO_APP: Starting ML-DSA Benchmark...[0m
+
+--- ML-DSA Performance Measurement ---
+KeyGen Time:  22519 us
+Sign Time:    60985 us
+Verify Time:  23638 us
+Verification OK
+Heap free: 370460 bytes
+[0;32mI (417) main_task: Returned from app_main()[0m
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x28 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x158c
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2f34
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.1 2nd stage bootloader[0m
+[0;32mI (25) boot: compile time Oct 18 2025 09:15:23[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (28) boot: efuse block revision: v1.3[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (76) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0af00h ( 44800) map[0m
+[0;32mI (94) esp_image: segment 1: paddr=0001af28 vaddr=3fc92d00 size=02bc0h ( 11200) load[0m
+[0;32mI (97) esp_image: segment 2: paddr=0001daf0 vaddr=40374000 size=02528h (  9512) load[0m
+[0;32mI (103) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1dd7ch (122236) map[0m
+[0;32mI (130) esp_image: segment 4: paddr=0003dda4 vaddr=40376528 size=0c718h ( 50968) load[0m
+[0;32mI (147) esp_image: segment 5: paddr=0004a4c4 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (153) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (153) boot: Disabling RNG early entropy source...[0m
+[0;32mI (164) cpu_start: Multicore app[0m
+[0;32mI (173) cpu_start: Pro cpu start user code[0m
+[0;32mI (174) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (179) app_init: Application information:[0m
+[0;32mI (179) app_init: Project name:     dilithium2[0m
+[0;32mI (179) app_init: App version:      1[0m
+[0;32mI (182) app_init: Compile time:     Oct 18 2025 09:15:10[0m
+[0;32mI (187) app_init: ELF file SHA256:  f53c1cf59...[0m
+[0;32mI (192) app_init: ESP-IDF:          v5.5.1[0m
+[0;32mI (196) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (199) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (203) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (207) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (214) heap_init: At 3FC961B8 len 00053558 (333 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (224) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (229) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (235) spi_flash: detected chip: winbond[0m
+[0;32mI (238) spi_flash: flash io: dio[0m
+[0;33mW (241) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (253) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (260) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (267) main_task: Started on CPU0[0m
+[0;32mI (287) main_task: Calling app_main()[0m
+[0;32mI (307) CRYPTO_APP: Starting ML-DSA Benchmark...[0m
+
+--- ML-DSA Performance Measurement ---
+KeyGen Time:  22251 us
+Sign Time:    35989 us
+Verify Time:  23628 us
+Verification OK
+Heap free: 370460 bytes
+[0;32mI (387) main_task: Returned from app_main()[0m
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x28 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x158c
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2f34
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.1 2nd stage bootloader[0m
+[0;32mI (25) boot: compile time Oct 18 2025 09:15:23[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (28) boot: efuse block revision: v1.3[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (76) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0af00h ( 44800) map[0m
+[0;32mI (94) esp_image: segment 1: paddr=0001af28 vaddr=3fc92d00 size=02bc0h ( 11200) load[0m
+[0;32mI (97) esp_image: segment 2: paddr=0001daf0 vaddr=40374000 size=02528h (  9512) load[0m
+[0;32mI (103) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1dd7ch (122236) map[0m
+[0;32mI (130) esp_image: segment 4: paddr=0003dda4 vaddr=40376528 size=0c718h ( 50968) load[0m
+[0;32mI (147) esp_image: segment 5: paddr=0004a4c4 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (153) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (153) boot: Disabling RNG early entropy source...[0m
+[0;32mI (164) cpu_start: Multicore app[0m
+[0;32mI (173) cpu_start: Pro cpu start user code[0m
+[0;32mI (174) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (179) app_init: Application information:[0m
+[0;32mI (179) app_init: Project name:     dilithium2[0m
+[0;32mI (179) app_init: App version:      1[0m
+[0;32mI (182) app_init: Compile time:     Oct 18 2025 09:15:10[0m
+[0;32mI (187) app_init: ELF file SHA256:  f53c1cf59...[0m
+[0;32mI (192) app_init: ESP-IDF:          v5.5.1[0m
+[0;32mI (196) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (199) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (203) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (207) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (214) heap_init: At 3FC961B8 len 00053558 (333 KiB): RAM[0m
+[0;32mI (219) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (224) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (229) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (235) spi_flash: detected chip: winbond[0m
+[0;32mI (238) spi_flash: flash io: dio[0m
+[0;33mW (241) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (253) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (260) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (267) main_task: Started on CPU0[0m
+[0;32mI (287) main_task: Calling app_main()[0m
+[0;32mI (307) CRYPTO_APP: Starting ML-DSA Benchmark...[0m
+
+--- ML-DSA Performance Measurement ---
+KeyGen Time:  22251 us
+Sign Time:    35991 us
+Verify Time:  23629 us
+Verification OK
+Heap free: 370460 bytes
+[0;32mI (387) main_task: Returned from app_main()[0m
