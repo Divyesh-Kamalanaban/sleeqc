@@ -1,10 +1,8 @@
-Here is a comprehensive README.md file for your project, explaining its architecture, purpose, and the key challenges you solved.
 
------
 
 # SleeQC: Resource-Adaptive PQC on ESP32
 
-**SleeQC** (a play on "Sleek" and "PQC") is a proof-of-concept project demonstrating a **resource-adaptive cryptography system** on an ESP32-S3. It uses a TinyML model to dynamically select the optimal Post-Quantum Cryptography (PQC) algorithm, balancing security with real-time resource availability.
+**SleeQC** is a proof-of-concept project demonstrating a **resource-adaptive cryptography system** on an ESP32-S3. It uses a TinyML model to dynamically select the optimal Post-Quantum Cryptography (PQC) algorithm, balancing security with real-time resource availability.
 
 This system intelligently decides whether to use the faster, less-intensive **ML-DSA-44 (Dilithium2)** or the more secure, resource-heavy **ML-DSA-87 (Dilithium5)** based on the device's current state.
 
@@ -108,7 +106,7 @@ SleeQC/
 1.  **Clone Repository:**
 
     ```bash
-    git clone [YOUR_REPO_URL]
+    git clone [\[https://github.com/Divyesh-Kamalanaban/sleeqc\]](https://github.com/Divyesh-Kamalanaban/sleeqc.git)
     cd SleeQC
     ```
 
