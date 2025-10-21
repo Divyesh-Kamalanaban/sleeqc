@@ -1,141 +1,204 @@
-# 🔐 ML-DSA44 on ESP32  
-### Post-Quantum Signature Benchmark & Wi-Fi Signing Server
+Here is a comprehensive README.md file for your project, explaining its architecture, purpose, and the key challenges you solved.
 
-> **Lightweight ML-DSA44 (Dilithium2-class) digital signature implementation** for ESP32, built on FreeRTOS and ESP-IDF.  
-> Enables both **performance benchmarking** and a **real-time signing server** over Wi-Fi.
+-----
 
----
+# SleeQC: Resource-Adaptive PQC on ESP32
 
-## 🚀 Overview
-This project demonstrates how **post-quantum cryptography (PQC)** — specifically ML-DSA44, a lattice-based signature algorithm — can be deployed efficiently on **embedded systems** like the ESP32.
+**SleeQC** (a play on "Sleek" and "PQC") is a proof-of-concept project demonstrating a **resource-adaptive cryptography system** on an ESP32-S3. It uses a TinyML model to dynamically select the optimal Post-Quantum Cryptography (PQC) algorithm, balancing security with real-time resource availability.
 
-It includes two primary operation modes:
-1. 🧮 **Benchmark Mode** — measures key generation, signing, and verification speed.  
-2. 🌐 **Wi-Fi Signing Server Mode** — listens for TCP messages and returns PQ signatures on demand.
+This system intelligently decides whether to use the faster, less-intensive **ML-DSA-44 (Dilithium2)** or the more secure, resource-heavy **ML-DSA-87 (Dilithium5)** based on the device's current state.
 
----
+-----
 
-## ⚙️ Features
-- 🧩 **Fully functional ML-DSA44 implementation** (based on PQClean)
-- ⏱️ Microsecond-level performance timing via `esp_timer`
-- 🔄 **FreeRTOS task isolation** for benchmark and server
-- 📶 **Wi-Fi STA mode integration** for real-time signing
-- 🧠 **Memory-efficient** (<400 KB heap used)
-- 🧰 Built on ESP-IDF (v5+)
+## 1\. Core Concept
 
----
+**The Problem:** High-security Post-Quantum Cryptography algorithms like Dilithium5 are computationally expensive. On a resource-constrained IoT device like an ESP32, running these heavy algorithms can consume excessive CPU time and stack memory, potentially starving other critical tasks (like network handling or sensor reading).
 
-## 🧱 Project Structure
+**The Solution:** Instead of a fixed security level, this project implements a "controller" using a TinyML model. This model acts as a high-speed decision engine:
+
+  * It monitors real-time system metrics (Free Heap, previous task duration).
+  * It predicts whether the system is "idle" or "under load."
+  * Based on this prediction, it dynamically selects the appropriate PQC algorithm for the next signing operation.
+
+This creates an intelligent balance:
+
+  * **System Idle?** Use the maximum security (Dilithium5).
+  * **System Busy?** Use the "good enough" security (Dilithium2) to ensure stability and responsiveness.
+
+-----
+
+## 2\. Features
+
+  * **Dynamic PQC Switching:** Automatically switches between `mldsa44` (Dilithium2) and `mldsa87` (Dilithium5).
+  * **TinyML Decision Engine:** Uses a lightweight TensorFlow Lite model to make real-time predictions.
+  * **Real-time Resource Monitoring:** Feeds free heap and task execution time into the model.
+  * **Parallel PQC Implementation:** Includes complete, working implementations of two Dilithium levels as ESP-IDF components.
+  * **Connectivity:** Initializes Wi-Fi in STA mode with a static IP for potential future IoT communication.
+  * **RTOS-Based:** Built on FreeRTOS for task management.
+
+-----
+
+## 3\. How It Works: The Logic Flow
+
+1.  **Boot & Connect:** The ESP32-S3 boots, initializes NVS, and connects to the hardcoded Wi-Fi network with a static IP.
+2.  **Initialize ML:** The `TFLiteRunner` class is instantiated. It loads the `model_data.h` and prepares the TensorFlow Lite interpreter, registering all necessary ops (including `Logistic`).
+3.  **Generate Keys:** `app_main` generates keypairs for *both* Dilithium2 and Dilithium5, storing them in static memory.
+4.  **Start Worker Task:** `app_main` creates the `pqc_worker_task` with a **16KB stack** (essential to prevent overflows).
+5.  **Adaptive Loop:** The `pqc_worker_task` enters an infinite loop:
+    1.  **Sense:** It measures `free_heap` and fetches the `duration_ms` from the *previous* loop's signing operation.
+    2.  **Predict:** It calls `ml_runner.predict()`, feeding in these metrics.
+    3.  **Decide:** The model outputs a value between 0.0 and 1.0. A threshold (`> 0.5f`) converts this to a binary decision: `0` (Use Dilithium2) or `1` (Use Dilithium5).
+    4.  **Act:** The chosen function (`D2_SIGN` or `D5_SIGN`) is called to sign a static message.
+    5.  **Report:** The loop logs the results (Heap, new SignTime, and Stack HWM) to the serial monitor.
+    6.  **Delay:** The task sleeps for 3 seconds before repeating.
+
+-----
+
+## 4\. Hardware & Software
+
+### Hardware
+
+  * **ESP32-S3** (Sufficient PSRAM and performance for PQC + ML).
+  * Standard USB cable for flashing and monitoring.
+
+### Software & Dependencies
+
+  * **ESP-IDF v5.5.1**
+  * **Custom Components:**
+      * `mldsa44`: PQClean implementation of ML-DSA-44 (Dilithium2).
+      * `mldsa87`: PQClean implementation of ML-DSA-87 (Dilithium5).
+  * **Managed Components** (auto-downloaded via `idf.py build`):
+      * `espressif/esp-tflite-micro`
+      * `espressif/esp-nn`
+
+-----
+
+## 5\. Project Structure
+
+This project uses a clean, component-based structure.
 
 ```
-/main
- ├── main.c              # Entry point (this file)
- ├── api.h               # ML-DSA44 PQC API header
- └── CMakeLists.txt
-/docs
- └── ML-DSA44_Expert_Documentation.md  # Full technical deep dive
+SleeQC/
+├── CMakeLists.txt          <-- Root project file. *Must* set EXTRA_COMPONENT_DIRS.
+├── components/
+│   ├── mldsa44/
+│   │   ├── include/        <-- Header files (.h)
+│   │   │   └── mldsa44/
+│   │   │       └── api.h
+│   │   ├── src/            <-- Source files (.c)
+│   │   └── CMakeLists.txt  <-- Registers component, sets SRCS_DIRS and INCLUDE_DIRS.
+│   └── mldsa87/
+│       ├── include/
+│       │   └── mldsa87/
+│       │       └── api.h
+│       ├── src/
+│       └── CMakeLists.txt
+├── main/
+│   ├── CMakeLists.txt      <-- Main component. *Must* have PRIV_REQUIRES.
+│   ├── main.cpp            <-- Main application logic (app_main, pqc_worker_task).
+│   ├── tflite_runner.h     <-- C++ class to manage the TFLite interpreter.
+│   └── model_data.h        <-- TFLite model converted to a C array.
+└── sdkconfig               <-- Project configuration.
 ```
 
----
+-----
 
-## 🧠 Modes of Operation
+## 6\. How to Build & Flash
 
-| Mode | Define | Description |
-|------|---------|-------------|
-| **Benchmark Mode** | `#define RUN_WIFI_SERVER 0` | Runs ML-DSA44 keygen, sign, verify, and measures time. |
-| **Wi-Fi Signing Server** | `#define RUN_WIFI_SERVER 1` | Starts TCP server on port 8000; signs incoming messages. |
+1.  **Clone Repository:**
 
----
+    ```bash
+    git clone [YOUR_REPO_URL]
+    cd SleeQC
+    ```
 
-## 🧩 Function Overview
+2.  **Set up ESP-IDF:**
+    Ensure you have the ESP-IDF v5.5.1 environment activated.
 
-| Function | Description |
-|-----------|--------------|
-| `measure_task()` | Runs performance benchmarks for keygen, sign, and verify. |
-| `listen_and_sign_task()` | Waits for TCP clients, signs received data, and returns the signature. |
-| `wifi_init_sta()` | Configures and connects ESP32 to Wi-Fi (STA mode). |
-| `app_main()` | Initializes NVS, sets up Wi-Fi, and launches the appropriate FreeRTOS task. |
+    ```bash
+    . $HOME/esp/esp-idf/export.sh
+    ```
 
----
+3.  **Clean & Build:**
+    It's critical to start with a clean configuration to avoid caching issues.
 
-## 📊 Sample Benchmark Output
+    ```bash
+    idf.py fullclean
+    idf.py build
+    ```
+
+    *(Alternatively, manually delete the `build` directory and then run `idf.py build`)*
+
+4.  **Flash & Monitor:**
+    Connect your ESP32-S3 and run:
+
+    ```bash
+    idf.py flash monitor
+    ```
+
+-----
+
+## 7\. Example Output
+
+A successful run will show the system booting, connecting to Wi-Fi, and then starting the adaptive loop. Notice how it correctly chooses Dilithium2 on the first run (when `duration_ms` is 0.0) and then switches to the more secure Dilithium5 once it confirms the system is stable.
 
 ```
---- ML-DSA Performance Measurement ---
-KeyGen Time:  22251 us
-Sign Time:    35991 us
-Verify Time:  23629 us
-Verification OK
-Heap free: 370460 bytes
+... (boot sequence) ...
+I (546) PQC_RUNTIME: WiFi initialized with static IP 192.168.1.50
+I (546) TFLITE: TFLite model loaded. Input dims: 2, Output dims: 2
+I (636) PQC_RUNTIME: Generated Dilithium2 and Dilithium5 keypairs
+
+I (636) TFLITE: ML predicted: 0.05 → Using Dilithium2
+I (716) PQC_RUNTIME: 🔒 Used DilithNium2 for signing
+I (716) PQC_RUNTIME: FreeHeap: 222.0 KB | SignTime: 79.15 ms | StackHWM: 7248
+
+I (3716) TFLITE: ML predicted: 1.00 → Using Dilithium5
+I (3876) PQC_RUNTIME: 🔒 Used Dilithium5 for signing
+I (3876) PQC_RUNTIME: FreeHeap: 226.0 KB | SignTime: 166.41 ms | StackHWM: 7248
+
+I (6876) TFLITE: ML predicted: 1.00 → Using Dilithium5
+I (6986) PQC_RUNTIME: 🔒 Used Dilithium5 for signing
+I (6986) PQC_RUNTIME: FreeHeap: 226.0 KB | SignTime: 118.04 ms | StackHWM: 7248
+...
 ```
 
-| Operation | Avg Time (ms) | Description |
-|------------|---------------|--------------|
-| KeyGen | 22.3 ms | Generates PQ keypair |
-| Sign | 36.0 ms | Creates digital signature |
-| Verify | 23.6 ms | Confirms signature authenticity |
+The **`StackHWM: 7248`** log shows that out of the 16384 bytes allocated, 7248 bytes were free at peak, meaning the task used **9136 bytes** of stack. This confirms the 8KB stack was insufficient.
 
----
+-----
 
-## ⚡ Getting Started
+## 8\. Key Troubleshooting & Fixes
 
-### 🧰 Requirements
-- ESP-IDF v5.0+
-- PQClean or ML-DSA library integrated (header: `api.h`)
-- ESP32 DevKitC / ESP32-WROOM / ESP32-S3
+This project required solving several complex integration problems:
 
-### 🔧 Build & Flash
-```bash
-idf.py set-target esp32
-idf.py build
-idf.py flash monitor
-```
+1.  **C/C++ Linker Errors (`undefined reference to ...`):**
 
-### 🌐 Optional: Run Wi-Fi Signing Server
-In `main.c`:
-```c
-#define RUN_WIFI_SERVER 1
-#define WIFI_SSID "YOUR_SSID"
-#define WIFI_PASSWORD "YOUR_PASSWORD"
-```
-Then:
-```bash
-idf.py build flash monitor
-```
+      * **Problem:** The C++ `main.cpp` file could not link against the compiled C libraries from the PQC components.
+      * **Fix:** Wrapped the PQC header includes in `main.cpp` with `extern "C" { ... }` to prevent C++ name mangling.
 
-A Python client can then connect to:
-```
-<ESP32_IP>:8000
-```
-and send any message to get its ML-DSA signature.
+2.  **Component Linker Errors (Build Failure):**
 
----
+      * **Problem:** The `main` component was not linked with the `mldsa44` and `mldsa87` components, even though the headers were found.
+      * **Fix:** Added `PRIV_REQUIRES mldsa44 mldsa87` to the `main/CMakeLists.txt` file.
 
-## 🧩 Future Improvements
-- [ ] Add ML-KEM (Kyber) key exchange support  
-- [ ] Implement message verification client in Python  
-- [ ] Add MQTT / HTTPS layer for IoT-scale secure messaging  
-- [ ] Optimize heap usage and parallel task scheduling  
-- [ ] Integrate with ESP-Secure-Boot for firmware attestation  
+3.  **Compiler Errors (`mldsa44/api.h: No such file`):**
 
----
+      * **Problem:** The build system didn't know where to find the custom components or their headers.
+      * **Fix:**
+        1.  Added `set(EXTRA_COMPONENT_DIRS components)` to the **root** `CMakeLists.txt`.
+        2.  Added `INCLUDE_DIRS "include"` to each component's `CMakeLists.txt`.
 
-## 🔬 Technical Documentation
-A full deep-dive explanation of all functions, architecture, and performance analysis is available here:  
-👉 [**ML-DSA44 Expert Documentation →**](../../wiki/ML-DSA44-Expert-Documentation)
+4.  **TFLite Crash (`LoadProhibited`):**
 
----
+      * **Problem:** The TFLite model used the `LOGISTIC` (Sigmoid) operation, but the TFLite interpreter didn't have this op loaded.
+      * **Fix:** Added `resolver.AddLogistic();` to the `TFLiteRunner::init()` function in `tflite_runner.h`.
 
-## 🧠 Acknowledgements
-- [PQClean](https://github.com/pqclean/pqclean) — clean implementations of PQC algorithms  
-- Espressif ESP-IDF Framework  
-- NIST PQC Standardization (FIPS 204: ML-DSA)
+5.  **Stack Overflow (`***ERROR*** A stack overflow...`):**
 
----
+      * **Problem:** The PQC signing functions are extremely stack-intensive and were overflowing the default 8KB task stack.
+      * **Fix:** Increased the stack size for `pqc_worker_task` to `16384` bytes in the `xTaskCreate` call.
 
-## 📄 License
-MIT License — see [LICENSE](LICENSE)
+-----
 
----
-⭐ **Author:** Divyesh K.  
-💡 *If this helped you, consider starring the repo!*
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
