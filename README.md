@@ -106,7 +106,7 @@ SleeQC/
 1.  **Clone Repository:**
 
     ```bash
-    git clone [\[https://github.com/Divyesh-Kamalanaban/sleeqc\]](https://github.com/Divyesh-Kamalanaban/sleeqc.git)
+    git clone https://github.com/Divyesh-Kamalanaban/sleeqc.git
     cd SleeQC
     ```
 
