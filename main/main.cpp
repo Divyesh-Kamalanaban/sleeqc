@@ -42,9 +42,9 @@ extern "C" {
 #define D5_SIGBYTES PQCLEAN_MLDSA87_CLEAN_CRYPTO_BYTES
 
 // Static IP configuration
-#define STATIC_IP_ADDR  "192.168.1.50"
-#define GATEWAY_ADDR    "192.168.1.1"
-#define NETMASK_ADDR    "255.255.255.0"
+#define STATIC_IP_ADDR  "192.168.1.xx"
+#define GATEWAY_ADDR    "192.168.x.x"
+#define NETMASK_ADDR    "255.255.255.x"
 
 // --- Global instance of the TFLite Runner ---
 TFLiteRunner ml_runner;
@@ -73,8 +73,8 @@ void wifi_init_static_ip(void) {
 
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = "DIVYPC5070",
-            .password = "3921XX2z",
+            .ssid = "Your SSID",
+            .password = "Your Password",
         },
     };
     esp_wifi_set_config(WIFI_IF_STA, &wifi_config);
