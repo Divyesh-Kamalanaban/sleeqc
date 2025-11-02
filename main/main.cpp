@@ -128,8 +128,8 @@ void wifi_init_dhcp(void) {
 
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = "divyeshhotspot",
-            .password = "divyesh123",
+            .ssid = "Your SSID Name",
+            .password = "Your Password",
         },
     };
 
