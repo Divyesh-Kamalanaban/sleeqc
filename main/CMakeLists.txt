@@ -1,5 +1,5 @@
 # Get all .cpp source files in this directory
-file(GLOB_RECURSE SRCS "*.cpp")
+file(GLOB_RECURSE SRCS "main.cpp" "*.cpp")
 
 idf_component_register(
     SRCS "${SRCS}"
